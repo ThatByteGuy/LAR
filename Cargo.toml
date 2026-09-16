@@ -1,0 +1,70 @@
+[package]
+name = "lar"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+license = "Apache-2.0 OR MIT"
+description = "LAR - security-first AUR helper: analyze untrusted build instructions before execution"
+
+[[bin]]
+name = "lar"
+path = "src/main.rs"
+
+[lib]
+name = "lar_lib"
+path = "src/lib.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive", "env", "wrap_help", "color", "unicode"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0" }
+toml = { version = "0.8" }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+tokio = { version = "1.38", features = ["macros", "rt-multi-thread", "fs", "process", "time"] }
+regex = { version = "1.10" }
+url = { version = "2.5" }
+thiserror = { version = "2.0" }
+anyhow = { version = "1.0" }
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+tempfile = { version = "3.10" }
+color-eyre = { version = "0.6" }
+dirs = { version = "5.0" }
+libc = { version = "0.2" }
+ed25519-dalek = { version = "2.1" }
+sha2 = { version = "0.10" }
+hex = { version = "0.4" }
+
+[dev-dependencies]
+assert_cmd = { version = "2.0" }
+predicates = { version = "3.0" }
+wiremock = { version = "0.6" }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+missing_docs = "allow"
+unreachable_pub = "warn"
+unused_must_use = "deny"
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "allow", priority = -1 }
+nursery = { level = "allow", priority = -1 }
+cargo = { level = "allow", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+dbg_macro = "warn"
+print_stdout = "warn"
+print_stderr = "warn"
+module_name_repetitions = "allow"
+must_use_candidate = "allow"
+missing_errors_doc = "allow"
